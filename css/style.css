@@ -1,0 +1,113 @@
+/* Bootstrap customized class */
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+.card {
+  color: #212529;
+}
+.card-img-wrap {
+  overflow: hidden;
+  height: 250px;
+}
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+}
+.card-body {
+  transition: background-color 0.3s, color 0.3s;
+}
+.card-img-top {
+  transition: transform 0.3s;
+}
+.card:hover .card-body {
+  background-color: #FEC260;
+}
+.card:hover .card-img-top {
+  transform: scale(1.08);
+}
+.card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.page-link {
+  color: #212529;
+}
+.page-link:hover {
+  color: #212529;
+}
+.page-item.active .page-link {
+  background-color: #212529;
+  color: white;
+}
+textarea.form-control {
+  min-height: 200px;
+}
+/* My class */
+a {
+  text-decoration: none;
+}
+body {
+  padding-top: 56px;
+}
+img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.footer {
+  margin-top: 56px;
+}
+
+
+.banner {
+  background-image: url('../img/banner-01.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-blend-mode: multiply;
+  display: flex;
+  height: 400px;
+  margin-bottom: 70px;
+}
+.banner--admin {
+  background-image: url('../img/banner-02.jpg');
+}
+.banner__title {
+  margin: auto;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 2px 8px rgb(0 0 0 / 67%);
+}
+.button-add-post,
+.button-category {
+  width: 300px;
+  height: 150px;
+  line-height: 150px;
+  font-size: 2em;
+  text-align: center;
+  background-color: #F9CF93;
+  color: white;
+  border-radius: 4px;
+  transition: transform 0.3s;
+}
+.button-add-post:hover,
+.button-category:hover {
+  transform: scale(1.08);
+  color: white;
+}
+
+.button-category {
+  background-color: #FF8BA7;
+}
+
+.post-content {
+  white-space: pre-line;
+}
