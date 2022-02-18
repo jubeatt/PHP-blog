@@ -1,12 +1,6 @@
 <?php
   require_once('conn.php');
   session_start();
-
-  // 非管理員的人造訪
-  if (empty($_SESSION['username'])) {
-    header('Location: index.php');
-    die();
-  }
 ?>
 
 <!DOCTYPE html>
@@ -22,20 +16,17 @@
 </head>
 <body>
 
+
   <?php require_once('nav.php'); ?>
 
-  <section class="banner banner--admin">
-    <h2 class="banner__title">管理後台</h2>
+  <section class="banner">
+    <h2 class="banner__title">文章分類</h2>
   </section>
 
 
   <main class="main">
-    <div class="container">
-      <div class="d-flex flex-wrap justify-content-center align-items-center mb-5">
-        <a class="button-add-post mb-3 mb-md-0" href="./admin_posts.php">管理文章</a>
-        <a class="button-category ms-md-3" href="./admin_categories.php">管理分類</a>
-      </div>
-    </div>
+    <div class="container"></div>
+
   </main>
   
   <footer class="footer bg-dark text-center p-3 text-light">
