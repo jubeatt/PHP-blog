@@ -1,3 +1,12 @@
+<?php
+  require_once('./conn.php');
+  session_start();
+  $username = null;
+  if (!empty($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,24 +22,30 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">PeaNu</a>
+      <a class="navbar-brand fw-bold" href="index.php">PeaNu</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
           <li class="nav-item">
-            <a class="nav-link" href="#">文章分類</a>
+            <a class="nav-link" href="category.php">文章分類</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">關於我</a>
+          <li class="nav-item me-lg-auto">
+            <a class="nav-link" href="about.php">關於我</a>
           </li>
-          <li class="nav-item ms-lg-auto">
-            <a class="nav-link" href="login.html">登入</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admin.html">後台管理</a>
-          </li>
+          <?php if (empty($username)) { ?>
+            <li class="nav-item">
+              <a class="nav-link" href="login.php">登入</a>
+            </li>
+          <?php } else { ?>
+            <li class="nav-item">
+              <a class="nav-link" href="admin.php">後台管理</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="handle.logout.php">登出</a>
+            </li>
+          <?php } ?>
         </ul>
       </div>
     </div>
@@ -44,17 +59,33 @@
   <main class="main">
     <div class="container">
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
-        <a class="col" href="#">
+      <?php
+        $template = '
+        <a class="col" href="post.php?id=%s">
           <div class="card">
             <div class="card-img-wrap">
               <img src="img/post_preview.jpg" class="card-img-top">
             </div>
             <div class="card-body">
-              <h5 class="card-title fw-bold">Card title</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima temporibus ducimus a minus iste nisi eligendi quia voluptatibus dolor itaque ex nihil sunt sit, numquam aliquam corporis hic quaerat accusantium velit aliquid! Atque maiores quo excepturi, dolorum deleniti expedita quaerat animi doloribus, repudiandae ullam perferendis in, magnam nihil alias saepe quas eligendi consectetur eum earum omnis dicta amet pariatur incidunt recusandae. Labore odio omnis aspernatur voluptatum atque, placeat, neque obcaecati quas reprehenderit deleniti corporis quis soluta cupiditate iste cum eaque earum aperiam voluptas sunt quisquam iusto. Ex, error. Eius commodi minus, at nam vitae omnis tempore accusamus reiciendis sequi dolorum.</p>
+              <h5 class="card-title fw-bold">%s</h5>
+              <p class="card-text">%s</p>
             </div>
           </div>
         </a>
+        ';
+        $sql = "SELECT * FROM posts";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+          echo sprintf(
+            $template,
+            htmlspecialchars($row['id']),
+            htmlspecialchars($row['title']),
+            htmlspecialchars($row['content'])
+          );
+        }
+      ?>
       </div>
       <nav aria-label="Page navigation example">
         <div class="d-flex justify-content-center">

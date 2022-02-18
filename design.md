@@ -6,6 +6,7 @@
 - about.php 關於我
 - login.php 登入頁面
 - admin.php 後台頁面
+- post.php?id=1 單篇文章頁面
 - add_post.php 新增文章頁面
 - update_post.php 編輯文章頁面
 

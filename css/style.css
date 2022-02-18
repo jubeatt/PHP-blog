@@ -60,9 +60,16 @@ img {
   -o-object-position: center;
      object-position: center;
 }
-.footer {
-  margin-top: 56px;
+.main {
+  min-height: calc(100vh - 638px);
 }
+.line-break {
+  height: 2px;
+  background-color: #CCC;
+  margin-bottom: 20px;
+}
+
+
 
 
 .banner {
@@ -108,6 +115,21 @@ img {
   background-color: #FF8BA7;
 }
 
+.post-header-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.post-header-item i {
+  color: #b1b1b1;
+  font-size: 1.2em;
+  margin-right: 0.5em;
+}
+
 .post-content {
   white-space: pre-line;
 }
+.footer {
+  margin-top: 56px;
+}
+
