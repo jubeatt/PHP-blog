@@ -7,6 +7,34 @@
     header('Location: index.php');
     die();
   }
+
+  /*
+    分頁製作
+    current_page: 目前頁數
+    per_page: 一頁顯示幾篇文章
+    offset: 略過幾篇文章
+  */
+  $current_page = 1;
+  $per_page = 9;
+  $sql = "SELECT COUNT(posts.id) AS total FROM posts WHERE is_deleted = 0";
+  $stmt = $conn->prepare($sql);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  $total = $row['total'];
+  // 總頁數 / 每頁數量（無條件進位）
+  $total_page = intval(ceil($total/$per_page));
+  if (!empty($_GET['page'])) {
+    $current_page = intval($_GET['page']);
+  }
+  // 防止亂改 page 參數
+  if ($current_page > $total_page) {
+    $current_page = $total_page;
+  }
+  if ($current_page < 1) {
+    $current_page = 1;
+  }
+  $offset = ($current_page-1) * $per_page;
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +61,7 @@
     <div class="container">
 
       <div class="d-flex flex-wrap justify-content-center align-items-center mb-5">
-        <a class="button-add-post mb-3 mb-md-0" href="new_post.php">新增文章</a>
+        <a class="button-add-post mb-3 mb-md-0" href="admin_add_post.php">新增文章</a>
       </div>
 
       <div class="card mb-5">
@@ -44,16 +72,17 @@
           <?php
             $template = '
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <div>
+              <div class="max-text me-1">
                 %s
               </div>
-              <div>
-                <a href="update_post.php?id=%d" class="btn btn-warning">編輯</a>
-                <a href="handle_delete_post.php?id=%d" class="btn btn btn-danger">刪除</a>
+              <div class="flex-shrink-0">
+                <a href="admin_update_post.php?id=%d" class="btn btn-warning">編輯</a>
+                <a href="handle_admin_delete_post.php?id=%d" class="btn btn btn-danger">刪除</a>
               </div>
             </li>';
-            $sql = "SELECT * FROM posts WHERE is_deleted = 0";
+            $sql = "SELECT * FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT ? OFFSET ?";
             $stmt = $conn->prepare($sql);
+            $stmt->bind_param('ii', $per_page, $offset);
             $stmt->execute();
             $result = $stmt->get_result();
             while ($row = $result->fetch_assoc()) {
@@ -70,11 +99,26 @@
       <nav aria-label="Page navigation example">
         <div class="d-flex justify-content-center">
           <ul class="pagination">
-            <li class="page-item page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item <?php echo $current_page === 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="admin_posts.php?page=<?php echo $current_page - 1?>">Previous</a>
+            </li>
+            <?php
+              $template = '
+              <li class="page-item %s">
+                <a class="page-link" href="admin_posts.php?page=%d">%d</a>
+              </li>';
+              for ($i=1; $i<=$total_page; $i++) {
+                echo sprintf(
+                  $template,
+                  $i === $current_page ? 'active' : '',
+                  $i,
+                  $i
+                );
+              }
+            ?>
+            <li class="page-item <?php echo $current_page === $total_page ? 'disabled' : '' ?>">
+              <a class="page-link" href="admin_posts.php?page=<?php echo $current_page + 1?>">Next</a>
+            </li>
           </ul>
         </div>
       </nav>

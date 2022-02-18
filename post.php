@@ -15,7 +15,10 @@
   }
 
   $post_id = $_GET['id'];
-  $sql = "SELECT * FROM posts WHERE id=? AND is_deleted = 0";
+  $sql = 
+  "SELECT posts.title, posts.content, posts.created_at, categories.name AS category FROM posts
+  LEFT JOIN categories ON categories.id = posts.category_id
+  WHERE posts.id=? AND posts.is_deleted = 0;";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param('s', $post_id);
   $stmt->execute();
@@ -56,7 +59,7 @@
     <div class="container">
       <div class="post-header-item">
         <i class="fas fa-tag"></i>
-        分類：<?php echo htmlspecialchars($row['category_id']);?>
+        分類：<?php echo htmlspecialchars($row['category']);?>
       </div>
       <div class="post-header-item">
         <i class="far fa-calendar-alt"></i>

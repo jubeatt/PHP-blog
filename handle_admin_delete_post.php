@@ -16,6 +16,6 @@
   $stmt->execute();
 
   // 刷新
-  header('Location: admin.php');
+  header('Location: admin_posts.php');
 
 ?>

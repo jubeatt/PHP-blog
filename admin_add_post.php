@@ -31,19 +31,45 @@
 
   <main class="main">
     <div class="container">
-      <form action="" method="POST">
+      <?php
+        // 錯誤訊息 
+        if (!empty($_GET['errorCode'])) {
+          $template = '
+              <div class="row col-lg-8 mx-lg-auto mb-3">
+                <div class="text-danger">錯誤：%s</div>
+              </div>';
+          $msg = 'Error';
+          if ($_GET['errorCode'] === '1') {
+            $msg = '資料不齊全，請重新輸入';
+          }
+          echo sprintf($template, $msg);
+        }
+      ?>
+      <form action="./handle_admin_add_post.php" method="POST">
+        <div class="row col-lg-8 mx-lg-auto">
+          <div class="mb-3">
+            <select name="category" class="form-select" aria-label="Default select example">
+              <option value="4" selected>Others</option>
+              <?php
+                $template = '<option value="%d">%s</option>';
+                $sql = "SELECT * FROM categories ORDER BY id DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                  if ($row['name'] === 'Others') {
+                    continue;
+                  }
+                  echo sprintf($template, $row['id'], htmlspecialchars($row['name']));
+                }
+              ?>
+            </select>
+          </div>
+        </div>
         <div class="row col-lg-8 mx-lg-auto">
           <div class="input-group mb-3">
-            <button type="button" class="btn btn-outline-secondary">分類一</button>
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="visually-hidden">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">分類一</a></li>
-              <li><a class="dropdown-item" href="#">分類二</a></li>
-              <li><a class="dropdown-item" href="#">分類三</a></li>
-            </ul>
-            <input type="text" name="title" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="請輸入文章標題">
+            <span class="input-group-text" id="inputGroup-sizing-default">文章標題</span>
+            <input type="text" name="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
         </div>
         <div class="row col-lg-8 mx-lg-auto">

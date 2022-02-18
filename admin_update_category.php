@@ -2,8 +2,8 @@
   require_once('conn.php');
   session_start();
 
-  // 防止訪客進入
-  if (empty($_SESSION['username'])) {
+  // 防止訪客刪除 or 沒帶 id
+  if (empty($_SESSION['username']) || empty($_GET['id'])) {
     header('Location: index.php');
     die();
   }
@@ -49,10 +49,25 @@
           echo sprintf($template, $msg);
         }
       ?>
-      <form action="./handle_admin_add_category.php" method="POST">
+      <form action="./handle_admin_update_category.php" method="POST">
         <div class="row justify-content-center">
           <div class="col-lg-4 mb-lg-0 mb-3">
-            <input type="text" name="name" class=" form-control" placeholder="請輸入分類名稱">
+            <?php
+              $category_id = $_GET['id'];
+              $sql = "SELECT name FROM categories WHERE id=?";
+              $stmt = $conn->prepare($sql);
+              $stmt->bind_param('s', $category_id);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              $row = $result->fetch_assoc();
+            ?>
+            <input 
+              type="text"
+              name="name"
+              class=" form-control"
+              placeholder="請輸入分類名稱" 
+              value="<?php echo empty($row['name']) ? '' : htmlspecialchars($row['name']);?>">
+            <input type="hidden" name="id" value="<?php echo $category_id ?>">
           </div>
           <div class="col-lg-2">
             <button type="submit" class="d-block w-100 btn btn-warning">送出</button>

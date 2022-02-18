@@ -66,4 +66,3 @@
 
 - id
 - name 分類名稱
-- category_number 分類編號

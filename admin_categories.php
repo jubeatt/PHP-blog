@@ -7,6 +7,34 @@
     header('Location: index.php');
     die();
   }
+
+  /*
+    分頁製作
+    current_page: 目前頁數
+    per_page: 一頁顯示幾篇文章
+    offset: 略過幾篇文章
+  */
+  $current_page = 1;
+  $per_page = 9;
+  $sql = "SELECT COUNT(categories.id) AS total FROM categories";
+  $stmt = $conn->prepare($sql);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  $total = $row['total'];
+  // 總頁數 / 每頁數量（無條件進位）
+  $total_page = intval(ceil($total/$per_page));
+  if (!empty($_GET['page'])) {
+    $current_page = intval($_GET['page']);
+  }
+  // 防止亂改 page 參數
+  if ($current_page > $total_page) {
+    $current_page = $total_page;
+  }
+  if ($current_page < 1) {
+    $current_page = 1;
+  }
+  $offset = ($current_page-1) * $per_page;
 ?>
 
 <!DOCTYPE html>
@@ -41,44 +69,60 @@
           分類列表
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              分類名稱
-            </div>
-            <div>
-              <button type="button" class="btn btn-warning">編輯</button>
-              <button type="button" class="btn btn btn-danger">刪除</button>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              分類名稱
-            </div>
-            <div>
-              <button type="button" class="btn btn-warning">編輯</button>
-              <button type="button" class="btn btn btn-danger">刪除</button>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              分類名稱
-            </div>
-            <div>
-              <button type="button" class="btn btn-warning">編輯</button>
-              <button type="button" class="btn btn btn-danger">刪除</button>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              分類名稱
-            </div>
-            <div>
-              <button type="button" class="btn btn-warning">編輯</button>
-              <button type="button" class="btn btn btn-danger">刪除</button>
-            </div>
-          </li>
+          <?php
+            $template = '
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                %s
+              </div>
+              <div>
+                <a href="admin_update_category.php?id=%d" class="btn btn-warning">編輯</a>
+                <a href="handle_admin_delete_category.php?id=%d" class="btn btn btn-danger">刪除</a>
+              </div>
+            </li>';
+            $sql = "SELECT * FROM categories ORDER BY id DESC LIMIT ? OFFSET ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('ii', $per_page, $offset);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+              echo sprintf(
+                $template,
+                htmlspecialchars($row['name']),
+                htmlspecialchars($row['id']),
+                htmlspecialchars($row['id']),
+              );
+            }
+          ?>
         </ul>
       </div>
+
+      <nav aria-label="Page navigation example">
+        <div class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item <?php echo $current_page === 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="admin_categories.php?page=<?php echo $current_page - 1?>">Previous</a>
+            </li>
+            <?php
+              $template = '
+              <li class="page-item %s">
+                <a class="page-link" href="admin_categories.php?page=%d">%d</a>
+              </li>';
+              for ($i=1; $i<=$total_page; $i++) {
+                echo sprintf(
+                  $template,
+                  $i === $current_page ? 'active' : '',
+                  $i,
+                  $i
+                );
+              }
+            ?>
+            <li class="page-item <?php echo $current_page === $total_page ? 'disabled' : '' ?>">
+              <a class="page-link" href="admin_categories.php?page=<?php echo $current_page + 1?>">Next</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
   </main>
   

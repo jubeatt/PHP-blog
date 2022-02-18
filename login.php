@@ -40,25 +40,25 @@
 
   <main class="main">
     <div class="container">
-      <form action="handle_login.php" method="POST">
-        <?php
-          // 錯誤訊息 
-          if (!empty($_GET['errorCode'])) {
-            $template = '
-              <div class="row">
-                <div class="col-lg-6 mx-auto mb-3">
-                  <div class="text-danger">錯誤：%s</div>
-                </div>
-              </div>';
-            $msg = 'Error';
-            if ($_GET['errorCode'] === '1') {
-              $msg = '資料不齊全，請重新輸入';
-            } else if ($_GET['errorCode'] === '2') {
-              $msg = '帳號或密碼不正確';
-            }
-            echo sprintf($template, $msg);
+      <?php
+        // 錯誤訊息 
+        if (!empty($_GET['errorCode'])) {
+          $template = '
+            <div class="row">
+              <div class="col-lg-6 mx-auto mb-3">
+                <div class="text-danger">錯誤：%s</div>
+              </div>
+            </div>';
+          $msg = 'Error';
+          if ($_GET['errorCode'] === '1') {
+            $msg = '資料不齊全，請重新輸入';
+          } else if ($_GET['errorCode'] === '2') {
+            $msg = '帳號或密碼不正確';
           }
-        ?>
+          echo sprintf($template, $msg);
+        }
+      ?>
+      <form action="handle_login.php" method="POST">
         <div class="row">
           <div class="col-lg-6 mx-auto mb-3">
             <input type="text" name="username" class="form-control" placeholder="請輸入帳號">

@@ -42,6 +42,7 @@
 }
 .page-item.active .page-link {
   background-color: #212529;
+  border-color: black;
   color: white;
 }
 textarea.form-control {
@@ -62,12 +63,28 @@ img {
 }
 .main {
   min-height: calc(100vh - 638px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .line-break {
   height: 2px;
   background-color: #CCC;
   margin-bottom: 20px;
 }
+
+.max-text {
+  max-width: 40em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}  
+@media screen and (max-width: 768px) {
+  .max-text {
+    max-width: 10em;
+  }  
+}
+
 
 
 
@@ -127,7 +144,6 @@ img {
   font-size: 1.2em;
   margin-right: 0.5em;
 }
-
 .post-content {
   white-space: pre-line;
 }
