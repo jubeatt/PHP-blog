@@ -16,7 +16,7 @@
 
   $post_id = $_GET['id'];
   $sql = 
-  "SELECT posts.title, posts.content, posts.created_at, categories.name AS category FROM posts
+  "SELECT posts.title, posts.content, posts.created_at, posts.category_id, categories.name AS category FROM posts
   LEFT JOIN categories ON categories.id = posts.category_id
   WHERE posts.id=? AND posts.is_deleted = 0;";
   $stmt = $conn->prepare($sql);
@@ -34,9 +34,11 @@
   
   // 取出所需資料
   $title = htmlspecialchars($row['title']);
+  $category_id = htmlspecialchars($row['category_id']);
   $category = htmlspecialchars($row['category']);
   $content = htmlspecialchars($row['content']);
   $date = htmlspecialchars($row['created_at']);
+
 
   // 用 SQL 做日期格式
   $format = '%Y年%c月%e日';
@@ -80,7 +82,7 @@
       </div>
       <div class="post-header-item">
         <i class="fas fa-tag"></i>
-        分類：<?php echo $category;?>
+        分類：<a href="filter.php?category_id=<?php echo  $category_id;?>"><?php echo $category;?></a>
       </div>
       <div class="line-break"></div>
       <div class="post-content"><?php echo $content;?></div>

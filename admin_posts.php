@@ -81,6 +81,8 @@
                 <a href="handle_admin_delete_post.php?id=%d" class="btn btn btn-danger">刪除</a>
               </div>
             </li>';
+
+            // 撈出所有文章
             $sql = "SELECT * FROM posts WHERE is_deleted = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('ii', $per_page, $offset);
