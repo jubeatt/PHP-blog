@@ -75,22 +75,40 @@
               <div class="max-text me-1">
                 %s
               </div>
-              <div class="flex-shrink-0">
-                <a href="admin_update_post.php?id=%d" class="btn btn-warning">編輯</a>
+              <div class="d-flex flex-shrink-0 align-items-center">
+                <div class="me-2 date d-none d-md-block">%s</div>
+                <a href="admin_update_post.php?id=%d" class="btn btn-warning me-2">編輯</a>
                 <a href="handle_admin_delete_post.php?id=%d" class="btn btn btn-danger">刪除</a>
               </div>
             </li>';
-            $sql = "SELECT * FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT ? OFFSET ?";
+            $sql = "SELECT * FROM posts WHERE is_deleted = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('ii', $per_page, $offset);
             $stmt->execute();
             $result = $stmt->get_result();
             while ($row = $result->fetch_assoc()) {
+
+              // 取出所需資料
+              $id = htmlspecialchars($row['id']);
+              $title = htmlspecialchars($row['title']);
+              $date = htmlspecialchars($row['created_at']);
+
+              // 用 SQL 做日期格式
+              $format = '%Y年%c月%e日';
+              $sql = "SELECT DATE_FORMAT(?, ?) AS formated";
+              $stmt = $conn->prepare($sql);
+              $stmt->bind_param('ss', $date, $format);
+              $stmt->execute();
+              $result_for_date = $stmt->get_result();
+              $row_for_date = $result_for_date->fetch_assoc();
+              $created_at = htmlspecialchars($row_for_date['formated']);
+
               echo sprintf(
                 $template,
-                htmlspecialchars($row['title']),
-                htmlspecialchars($row['id']),
-                htmlspecialchars($row['id']),
+                $title,
+                $created_at,
+                $id,
+                $id,
               );
             }
           ?>

@@ -31,6 +31,23 @@
   }
 
   $row = $result->fetch_assoc();
+  
+  // 取出所需資料
+  $title = htmlspecialchars($row['title']);
+  $category = htmlspecialchars($row['category']);
+  $content = htmlspecialchars($row['content']);
+  $date = htmlspecialchars($row['created_at']);
+
+  // 用 SQL 做日期格式
+  $format = '%Y年%c月%e日';
+  $sql = "SELECT DATE_FORMAT(?, ?) AS formated";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('ss', $date, $format);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  $created_at = htmlspecialchars($row['formated']);
+
 ?>
 
 <!DOCTYPE html>
@@ -51,22 +68,22 @@
   <?php require_once('nav.php'); ?>
 
   <section class="banner">
-    <h2 class="banner__title"><?php echo htmlspecialchars($row['title']);?></h2>
+    <h2 class="banner__title"><?php echo $title;?></h2>
   </section>
 
 
   <main class="main">
     <div class="container">
       <div class="post-header-item">
-        <i class="fas fa-tag"></i>
-        分類：<?php echo htmlspecialchars($row['category']);?>
+        <i class="far fa-calendar-alt"></i>
+        日期：<?php echo $created_at;?>
       </div>
       <div class="post-header-item">
-        <i class="far fa-calendar-alt"></i>
-        日期：<?php echo htmlspecialchars($row['created_at']);?>
+        <i class="fas fa-tag"></i>
+        分類：<?php echo $category;?>
       </div>
       <div class="line-break"></div>
-      <div class="post-content"><?php echo htmlspecialchars($row['content']);?></div>
+      <div class="post-content"><?php echo $content;?></div>
     </div>
 
   </main>

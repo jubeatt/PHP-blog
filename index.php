@@ -69,7 +69,7 @@
           </div>
         </a>
         ';
-        $sql = "SELECT * FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT ? OFFSET ?";
+        $sql = "SELECT * FROM posts WHERE is_deleted = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ii', $per_page, $offset);
         $stmt->execute();
