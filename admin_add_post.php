@@ -111,6 +111,26 @@
       indentBlock:{
         offset: 0.8,
         unit: 'em'
+      },
+      codeBlock: {
+        languages: [
+          { language: 'plaintext', label: 'Plain text' },
+          { language: 'css', label: 'CSS' },
+          { language: 'html', label: 'HTML' },
+          { language: 'xml', label: 'XML' },
+          { language: 'javascript', label: 'JavaScript' },
+          { language: 'json', label: 'JSON' },
+          { language: 'bash', label: 'Bash' },
+          { language: 'sql', label: 'SQL' },
+          { language: 'php', label: 'PHP' },
+          { language: 'c', label: 'C' },
+          { language: 'c#', label: 'C#' },
+          { language: 'diff', label: 'Diff' },
+          { language: 'java', label: 'Java' },
+          { language: 'python', label: 'Python' },
+          { language: 'ruby', label: 'Ruby' },
+          { language: 'typescript', label: 'TypeScript' },
+        ]
       }
     })
     .catch( error => {

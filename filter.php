@@ -54,8 +54,16 @@
 
   <?php require_once('nav.php'); ?>
 
+  <?php
+    $sql = "SELECT name FROM categories WHERE id=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $category_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+  ?>
   <section class="banner">
-    <h2 class="banner__title">PeaNu's blog</h2>
+    <h2 class="banner__title">分類：<?php echo $row['name'] ;?></h2>
   </section>
 
 

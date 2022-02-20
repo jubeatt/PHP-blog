@@ -102,7 +102,9 @@
 
   <script>
     hljs.highlightAll();
-    hljs.initLineNumbersOnLoad()
+    hljs.initLineNumbersOnLoad({
+      singleLine: true
+    });
   </script>
 </body>
 </html>
