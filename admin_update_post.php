@@ -25,7 +25,7 @@
   <?php require_once('nav.php');?>
 
   <section class="banner banner--admin">
-    <h2 class="banner__title">新增文章</h2>
+    <h2 class="banner__title">編輯文章</h2>
   </section>
 
 
@@ -50,7 +50,7 @@
         <?php
           $post_id = $_GET['id'];
           $sql = 
-          "SELECT posts.title, posts.content, posts.created_at, categories.name AS category FROM posts
+          "SELECT posts.title, posts.content, posts.preview, posts.created_at, categories.name AS category FROM posts
           LEFT JOIN categories ON categories.id = posts.category_id
           WHERE posts.id=? AND posts.is_deleted = 0;";
 
@@ -63,6 +63,7 @@
           $post_category = $row['category'];
           $post_title = $row['title'];
           $post_content = $row['content'];
+          $post_preview = $row['preview'];
         ?>
         <div class="row col-lg-8 mx-lg-auto">
           <div class="mb-3">
@@ -91,15 +92,18 @@
             <input type="text" name="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<?php echo htmlspecialchars($post_title);?>">
           </div>
         </div>
-        <div class="row col-lg-8 mx-lg-auto">
-          <div class="input-group mb-3">
-            <span class="input-group-text">文章內容</span>
-            <textarea name="content" class="form-control" aria-label="With textarea"><?php echo htmlspecialchars($post_content);?></textarea>
+        <div class="row col-lg-8 mx-lg-auto mb-3">
+          <div class="input-group">
+            <span class="input-group-text">預覽文字</span>
+            <textarea class="form-control" name="preview" aria-label="With textarea"><?php echo htmlspecialchars($post_preview);?></textarea>
           </div>
+        </div>
+        <div class="row col-lg-8 mx-lg-auto">
+          <textarea name="content" id="editor" class="form-control" aria-label="With textarea"><?php echo htmlspecialchars($post_content);?></textarea>
         </div>
         <!-- 文章 id -->
         <input type="hidden" name="id" value="<?php echo $post_id?>">
-        <div class="row col-lg-8 mx-lg-auto">
+        <div class="row col-lg-8 mx-lg-auto mt-3">
           <div class="text-end">
             <button type="submit" class="btn btn-warning">送出</button>
           </div>
@@ -113,5 +117,25 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="./plug-in/ckeditor/ckeditor.js"></script>
+  <script>
+    ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+      toolbar: [
+        'heading', '|', 'bold', 'italic', 'code',
+        'link','bulletedList','numberedList',
+        '|','outdent','indent', '|',
+        'blockQuote','insertTable','undo',
+        'redo','codeBlock'
+      ],
+      indentBlock:{
+        offset: 0.8,
+        unit: 'em'
+      }
+    })
+    .catch( error => {
+        console.error( error );
+    } );
+  </script>
 </body>
 </html>

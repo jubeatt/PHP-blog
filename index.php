@@ -8,7 +8,7 @@
     offset: 略過幾篇文章
   */
   $current_page = 1;
-  $per_page = 9;
+  $per_page = 12;
   $sql = "SELECT COUNT(posts.id) AS total FROM posts WHERE is_deleted = 0";
   $stmt = $conn->prepare($sql);
   $stmt->execute();
@@ -79,7 +79,7 @@
             $template,
             htmlspecialchars($row['id']),
             htmlspecialchars($row['title']),
-            htmlspecialchars($row['content'])
+            htmlspecialchars($row['preview']),
           );
         }
       ?>

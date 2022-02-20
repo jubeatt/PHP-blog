@@ -86,7 +86,7 @@
             $template,
             htmlspecialchars($row['id']),
             htmlspecialchars($row['title']),
-            htmlspecialchars($row['content'])
+            htmlspecialchars($row['preview'])
           );
         }
       ?>
