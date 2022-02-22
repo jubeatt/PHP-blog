@@ -75,9 +75,12 @@
               <div>
                 %s
               </div>
-              <div>
-                <a href="admin_update_category.php?id=%d" class="btn btn-warning">編輯</a>
-                <a href="handle_admin_delete_category.php?id=%d" class="btn btn btn-danger">刪除</a>
+              <div class="d-flex flex-shrink-0 align-items-center">
+                <a href="admin_update_category.php?id=%d" class="btn btn-warning me-1">編輯</a>
+                <form method="POST" action="handle_admin_delete_category.php">
+                  <input type="hidden" name="id" value="%d">
+                  <input type="submit" class="btn btn btn-danger" value="刪除">
+                </form>
               </div>
             </li>';
             $sql = "SELECT * FROM categories ORDER BY id DESC LIMIT ? OFFSET ?";

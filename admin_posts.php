@@ -78,8 +78,11 @@
               <div class="d-flex flex-shrink-0 align-items-center">
                 <div class="me-2 date d-none d-md-block">%s</div>
                 <a href="admin_update_post.php?id=%d" class="btn btn-warning me-2">編輯</a>
-                <a href="handle_admin_delete_post.php?id=%d" class="btn btn btn-danger">刪除</a>
-              </div>
+                <form method="POST" action="handle_admin_delete_post.php">
+                  <input type="hidden" name="id" value="%d">
+                  <input type="submit" class="btn btn btn-danger" value="刪除">
+                </form>
+                </div>
             </li>';
 
             // 撈出所有文章
