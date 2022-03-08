@@ -11,6 +11,15 @@ img {
   -o-object-position: center;
      object-position: center;
 }
+
+/* 導覽列 active 判斷 */
+#category a[href="categories.php"],
+#about a[href="about.php"],
+#admin a[href="admin.php"],
+#login a[href="login.php"] {
+  color: #fff;
+}
+
 .main {
   min-height: calc(100vh - 638px);
   display: flex;

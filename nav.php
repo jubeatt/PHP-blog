@@ -14,22 +14,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
         <li class="nav-item">
-          <a class="nav-link 
-          <?php
-            if (str_contains($_SERVER['REQUEST_URI'], '/categories.php')) { 
-              echo 'active';
-            } 
-          ?>" 
-          href="categories.php">文章分類</a>
+          <a class="nav-link" href="categories.php">文章分類</a>
         </li>
         <li class="nav-item me-lg-auto">
-          <a class="nav-link
-          <?php
-            if (str_contains($_SERVER['REQUEST_URI'], '/about.php')) { 
-              echo 'active';
-            }
-          ?>"
-          href="about.php">關於我</a>
+          <a class="nav-link" href="about.php">關於我</a>
         </li>
         <?php if (empty($username)) { ?>
           <li class="nav-item">
@@ -37,13 +25,7 @@
           </li>
         <?php } else { ?>
           <li class="nav-item">
-            <a class="nav-link
-            <?php
-              if (str_contains($_SERVER['REQUEST_URI'], '/admin.php')) { 
-                echo 'active';
-              } 
-            ?>" 
-            href="admin.php">後台管理</a>
+            <a class="nav-link" href="admin.php">後台管理</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="handle.logout.php">登出</a>
