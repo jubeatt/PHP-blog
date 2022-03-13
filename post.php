@@ -1,6 +1,6 @@
 <?php
   require_once('conn.php');
-  session_start();
+  require_once('./session.php');
   
   // 沒帶 id，導回首頁
   if (empty($_GET['id'])) {

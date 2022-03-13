@@ -1,6 +1,6 @@
 <?php
   require_once('conn.php');
-  session_start();
+  require_once('./session.php');
   if (empty($_GET['category_id'])) {
     header('Location: index.php');
   }

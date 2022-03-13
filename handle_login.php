@@ -1,14 +1,6 @@
 <?php
   require_once('conn.php');
-  session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'domain' => 'localhost',
-    'secure' => TRUE,
-    'httponly' => TRUE,
-    'samesite' => 'Lax'
-  ]);
-  session_start();
+  require_once('./session.php');
 
   // 資料不完整
   if (empty($_POST['username']) || empty($_POST['password'])) {

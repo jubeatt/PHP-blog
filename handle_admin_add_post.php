@@ -1,6 +1,6 @@
 <?php
   require_once('conn.php');
-  session_start();
+  require_once('./session.php');
 
   // 防止訪客新增文章
   if (empty($_SESSION['username'])) {

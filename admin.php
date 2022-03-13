@@ -1,6 +1,6 @@
 <?php
   require_once('conn.php');
-  session_start();
+  require_once('./session.php');
 
   // 非管理員的人造訪
   if (empty($_SESSION['username'])) {

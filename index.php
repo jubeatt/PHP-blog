@@ -1,6 +1,6 @@
 <?php
   require_once('conn.php');
-  session_start();
+  require_once('./session.php');
   /*
     分頁製作
     current_page: 目前頁數

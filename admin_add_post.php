@@ -1,6 +1,6 @@
 <?php
   require_once('conn.php');
-  session_start();
+  require_once('./session.php');
 
   // 防止訪客進入
   if (empty($_SESSION['username'])) {
