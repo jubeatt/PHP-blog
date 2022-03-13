@@ -28,7 +28,7 @@
             <a class="nav-link" href="admin.php">後台管理</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="handle.logout.php">登出</a>
+            <a class="nav-link" href="handle_logout.php">登出</a>
           </li>
         <?php } ?>
       </ul>
