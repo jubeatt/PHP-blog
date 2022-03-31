@@ -25,6 +25,8 @@
 
 另外，版面的部分是採用 BootStrap 來製作。
 
+補充：後來我用了 Express + ORM 來重新製作這個部落格，有興趣的話可以到這裡來看：https://github.com/jubeatt/Express-blog
+
 ## 網站預覽
 
 主要的頁面（首頁、後台、登入）：
