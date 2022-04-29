@@ -1,5 +1,11 @@
 # PHP 部落格
 
+網站連結：https://blog.peanu.tw
+
+- 測試帳號：peanu
+- 測試密碼：12345
+
+
 ## 這是什麼
 
 這是用 PHP + MySQL 建立的部落格。它的功能有：
@@ -36,6 +42,3 @@
 單篇文章與編輯頁面：
 
 ![demo](demo.gif)
-
-
-網站連結：https://blog.peanu.tw
